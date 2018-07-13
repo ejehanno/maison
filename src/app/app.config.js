@@ -1,13 +1,50 @@
 let app_config = function($compileProvider, $stateProvider, $urlRouterProvider, $httpProvider, GlobalConfigFactoryProvider, 
     $translateProvider, $translatePartialLoaderProvider) {
     // $httpProvider.defaults.headers.common['Authorization'];
-    const user_login_state = {
-        "name" : "login",
+    const page_accueil_state = {
+        "name" : "pageAccueilComponent",
         "url" : "/",
-        "component" : "login"
+        "component" : "pageAccueilComponent"
     };
 
-    $stateProvider.state(user_login_state);
+    const liste_state ={
+        "name" : "listeComponent",
+        "url" : "/liste",
+        "component" : "listeComponent"
+    };
+
+    const rdv_state ={
+        "name" : "rdvComponent",
+        "url" : "/rdv",
+        "component" : "rdvComponent"
+    };
+
+
+    const points_state ={
+        "name" : "pointsComponent",
+        "url" : "/points",
+        "component" : "pointsComponent"
+    };
+
+
+    const tirelire_state ={
+        "name" : "tirelireComponent",
+        "url" : "/tirelire",
+        "component" : "tirelireComponent"
+    };
+
+
+
+
+
+
+    
+
+    $stateProvider.state(page_accueil_state);
+    $stateProvider.state(liste_state);
+    $stateProvider.state(rdv_state);
+    $stateProvider.state(points_state);
+    $stateProvider.state(tirelire_state);
     $urlRouterProvider.otherwise("/");
 
     // Config  I18N

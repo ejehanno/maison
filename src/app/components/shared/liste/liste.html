@@ -1,0 +1,54 @@
+
+		<div class="row"> 
+			<h1> LISTE DE COURSE</h1>
+		</div>
+		<div class="row">
+			<div  class="col-2" >
+				<div class="row" ng-click="mpc.toggle_liste()">
+					<ul>
+						<li ng-repeat="rayon in mpc.rayons_actuels">{{rayon}}
+							<ul>
+								<li ng-repeat="item in mpc.listeCourseActuelle | orderBy: 'rayon'" ng-if="item.rayon===rayon" > {{item.nombre}} - {{item.nom}}</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="row center" ng-click="mpc.vider_liste_course()">
+					<button>VIDER</button>
+				</div>
+			</div>
+
+
+
+			<div class="col-10">
+				<div class="column row">
+					<div class="items col"  ng-repeat="rayon in mpc.rayons">
+						<div class="row center"> {{rayon}}</div>
+						<div ng-repeat="item in mpc.listeCourse | orderBy: 'nom'" ng-click="mpc.ajouter_item(item)" class="row center">
+							<button class="button" ng-if="item.rayon===rayon" > 
+								{{item.nom }}
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="ajout" >
+					<form name="ajout_item">
+						<fieldset>
+							<input name="produit" type="text" class="row center" placeholder="Nouveau produit / rayon" ng-model="mpc.nouvel_item.nom" maxlength="20" required>
+							<select name="choix_rayon" class="row center" ng-model="mpc.nouvel_item.rayon" required>
+								
+								<option value="" disabled selected>Choix du rayon</option>
+								<optgroup label="rayon">
+							  		<option ng-repeat ="rayon in mpc.rayons" ng-model="mpc.nouvel_item.rayon">{{rayon}}</option>
+							  	</optgroup>
+							  	<option value="nouveau_rayon" ng-model="mpc.nouvel_item.rayon"> Nouveau rayon</option>
+							  	
+
+							</select>
+						</fieldset>
+						<button class="row center" ng-if="!mpc.ajouter_course" ng-click="mpc.ajouter_nouvel_item(mpc.nouvel_item)" ng-disabled="ajout_item.$invalid"> AJOUTER </button>
+					</form>
+					
+				</div>
+			</div>
+		</div>

@@ -1,0 +1,21 @@
+
+<div class="row"> 
+	<h1> COMPTAGE DES POINTS</h1>
+</div>
+<div class="row"> 
+	<div class="row offset-10" >
+		<table >
+			<caption ng-click="mpc.toggle_points()">Points</caption>
+			<tr>
+				<th ng-repeat="enfant in mpc.enfants">{{enfant.nom}}</th>
+			</tr>
+			<tr>
+				<td ng-repeat ="enfant in mpc.enfants">
+					<button ng-click="mpc.ajout_point(enfant)" class="fa fa-angle-up row"></button>
+					<div class="row" ng-class="{'neg': enfant.point<'0', 'pos': enfant.point>'0', 'very': enfant.point<'-3' || enfant.point>'3' }">{{enfant.point}}</div>
+					<button ng-click="mpc.retrait_point(enfant)" class="fa fa-angle-down row"></button>	
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,150 @@
+	<div ng-if="mpc.accueil">
+		<div class="row" ng-click="mpc.toggle_agenda()">
+			<div class="rdv col-6">
+		    	<div>
+		    		RDV aujourd'hui
+				</div>
+				<div ng-repeat="rdv in mpc.RDVs">
+					<ul ng-if="mpc.comparer_date(rdv)">
+						<li>
+							{{rdv.nom_rdv}}
+							{{rdv.adresse_rdv}}
+							{{rdv.date_rdv | date : "dd.MM.yy"}}
+						</li>
+					</ul>
+				</div>
+			</div>
+		    <div class="rdv col-6">
+		    	<div>
+		    		RDV a venir
+				</div>
+				<div ng-repeat="rdv in mpc.RDVs">
+					<ul ng-if="!mpc.comparer_date(rdv)">
+						<li>
+							{{rdv.nom_rdv}}
+							{{rdv.adresse_rdv}}
+							{{rdv.date_rdv | date : "dd.MM.yy"}}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row"> 
+
+
+			<div class ="listeCourse col-2" ng-click="mpc.toggle_liste()">
+				<ul>
+					<li ng-repeat="rayon in mpc.rayons_actuels">{{rayon.nom}}
+						<ul>
+							<li ng-repeat="item in mpc.listeCourseActuelle | orderBy: 'rayon'" ng-if="item.rayon===rayon" > {{item.nombre}} - {{item.nom}}</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+
+
+			<div class="col-8">
+				<div > </div>
+				<div> </div>
+				<div ng-if= "mpc.get_jour_poubelle()" class="poubelle"> poubelle</div>
+
+			 </div>
+			<div class="col-2">
+				<div class="point row" ng-click="mpc.toggle_points()">
+					<table class="table">
+						<caption>Points</caption>
+						<tr class="tr">
+							<th class="td" ng-repeat="enfant in mpc.enfants">{{enfant.nom}}</th>
+						</tr>
+						<tr>
+							<td class="td" ng-repeat ="enfant in mpc.enfants" ng-class="{'neg': enfant.point<'0', 'pos': enfant.point>'0', 'very': enfant.point<'-3' || enfant.point>'3' }">{{enfant.point}}</td>
+						</tr>
+					</table>
+				</div>
+				<div class="tirelire row" ng-click="mpc.toggle_tirelire()">
+					<table class="table">
+						<caption>Tirelire</caption>
+						<tr class="tr">
+							<th class="td"  ng-repeat="enfant in mpc.enfants">{{enfant.nom}}</th>
+						</tr>
+						<tr>
+							<td class="td" ng-repeat ="enfant in mpc.enfants" ng-class="{'neg': enfant.solde<'1', 'very': enfant.solde<'0'}">{{enfant.solde}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-if="mpc.points">
+		<div class="row"> 
+			<h1> COMPTAGE DES POINTS</h1>
+		</div>
+		<div class="row"> 
+			<div class="row offset-10" >
+				<table >
+					<caption ng-click="mpc.toggle_points()">Points</caption>
+					<tr>
+						<th ng-repeat="enfant in mpc.enfants">{{enfant.nom}}</th>
+					</tr>
+					<tr>
+						<td ng-repeat ="enfant in mpc.enfants">
+							<button ng-click="mpc.ajout_point(enfant)" class="fa fa-angle-up row"></button>
+							<div class="row" ng-class="{'neg': enfant.point<'0', 'pos': enfant.point>'0', 'very': enfant.point<'-3' || enfant.point>'3' }">{{enfant.point}}</div>
+							<button ng-click="mpc.retrait_point(enfant)" class="fa fa-angle-down row"></button>	
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="tirelire-compte" ng-if="mpc.tirelire">
+		<div class="row" ng-click="mpc.toggle_tirelire()"> 
+			<h1> TIRELIRE</h1>
+		</div>
+
+
+		<div  class="row">
+			<div class="col-3 tirelire-enfant" ng-repeat="enfant in mpc.enfants track by $index">
+				<div class="row center"><h2>{{enfant.nom}}</h2></div>
+				<div class="row center"><h3>Revenu : {{enfant.revenu}}</h3></div>
+				<div class="row center"><h3> Solde : <span ng-class="{'neg': enfant.solde<'1', 'very': enfant.solde<'0'}">{{enfant.solde}}</span></h3></div>
+
+
+				<div class="nouvelle-transaction center" ng-if="mpc.enfant_transaction ===$index">
+					<textarea class="row center" placeholder="description de la transaction" maxlength="25" ng-model="mpc.nouvelle_description">{{mpc.nouvelle_description}}</textarea>
+					<input class="row center" type="date" ng-model="mpc.date_transaction">
+					<input class="row center" type="number" min="O" step="0.01" ng-model="mpc.montant">
+					<button class="row center" ng-click="mpc.nouvelle_transaction(enfant)">Valider</button>
+					<button class="row center" ng-click="mpc.nouvelle_transaction()">Annuler</button>
+				</div>
+
+
+<!-- 				<div class="row" ng-repeat="transaction in enfant.transactions">
+					<div class="transaction-date"> {{transaction.date | date : "dd.MM.yy"}}</div>
+					<div class="transaction"> {{transaction.montant}}</div> 
+					<div class="transaction"> {{transaction.description}}</div>
+				</div> -->
+
+
+				<table class="table">
+					<tr class="th"> 
+						<th class="td"> Date</th>
+						<th class="td"> Montant</th>
+						<th class="td"> Description</th>
+					<tr ng-repeat="transaction in enfant.transactions">
+						<td class="td">{{transaction.date | date : "dd.MM.yy"}}</td>
+						<td class="td">{{transaction.montant}} €</td>
+						<td class="td">{{transaction.description}}</td>
+					</tr>
+
+				</table>
+				<div class="row"> 
+					<button ng-if="mpc.enfant_transaction !==$index" class="center" ng-click="mpc.ajout_transaction($index)">Ajouter</button>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,49 @@
+
+		<div class="row" >
+			<div class="rdv col-6" ng-click="mpc.toggle_agenda()">
+		    	<div>
+		    		RDV aujourd'hui  
+				</div>
+				<div ng-repeat="rdv in mpc.RDVs">
+					<ul ng-if="mpc.comparer_date(rdv)">
+						<li>
+							{{rdv.nom_rdv}}
+							{{rdv.adresse_rdv}}
+							{{rdv.date_rdv | date : "dd.MM.yy"}}
+						</li>
+					</ul>
+				</div>
+			</div>
+		    <div class="rdv col-6">  
+		    	<div>
+		    	RDV a venir 
+				</div>
+				<div ng-repeat="rdv in mpc.RDVs">
+					<ul ng-if="!mpc.comparer_date(rdv)">
+						<li>
+							{{rdv.nom_rdv}}
+							{{rdv.adresse_rdv}}
+							{{rdv.date_rdv | date : "dd.MM.yy"}}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+<!-- 		<div>
+			<iframe src="https://calendar.google.com/calendar/embed?src=hmqsr2rkfgol1rd31qjid0d5lo%40group.calendar.google.com&ctz=Europe%2FParis" style="border: 0" width="800" height="400" frameborder="0" scrolling="no"></iframe>
+
+		</div> -->
+		<div>
+			<button ng-if="!mpc.RDV" class="row center" ng-click="mpc.nouveau_RDV()">Nouveau rendez-vous</button>
+			<button ng-if="mpc.RDV" class="row center" ng-click="mpc.nouveau_RDV()">Annuler</button>
+			<div class=" center" ng-if="mpc.RDV">
+				
+				<input class="row center" type="datetime-local" min ="mpc.date" required ng-model="mpc.date_rdv">
+				<textarea class="row center" placeholder="nom du RDV" maxlength="25" ng-model="mpc.nom_rdv" required>{{mpc.nom_rdv}}</textarea>
+				<textarea class="row center" placeholder="adresse" maxlength="50" ng-model="mpc.adresse_rdv" required>{{mpc.adresse_rdv}}</textarea>
+
+			</div>
+			<button ng-if="mpc.RDV" class="row center" ng-click="mpc.valider_RDV()">Valider</button>
+
+
+		</div>
